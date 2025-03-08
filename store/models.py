@@ -30,9 +30,9 @@ class Product(models.Model):
     # updated_at = models.DateTimeField(auto_now=True)
 
     #add sell stuff to product
-    sell=models.BooleanField(default=False)
-    sell_price=models.DecimalField(decimal_places=2, max_digits=6,default=0)
-    
+    is_sale=models.BooleanField(default=False)
+    sale_price=models.DecimalField(decimal_places=2, max_digits=6,default=0)
+
 
     
     def __str__(self):
