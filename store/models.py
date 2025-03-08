@@ -28,6 +28,12 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
+
+    #add sell stuff to product
+    sell=models.BooleanField(default=False)
+    sell_price=models.DecimalField(decimal_places=2, max_digits=6,default=0)
+    
+
     
     def __str__(self):
         return self.name
