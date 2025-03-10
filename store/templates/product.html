@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <center>
+                <div class="col-8">
+                   <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Sale badge -->
+                                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                <!-- Product image -->
+                                <a href="{% url 'product' product.id %}"><img class="card-img-top"  src="{{ product.image.url }}"  alt="{{ product.name }}" /></a>
+                                <!-- Product details -->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name -->
+                                        <h5 class="fw-bolder">{{ product.name }}</h5>
+                                        <p class="card-text">{{ product.description }}</p>
+
+                                        {% if product.is_sale %}
+                                        <div class="d-flex justify-content-center small text-warning mb-2">
+                                            <div class="bi-star-fill"></div>
+                                            &nbsp;&nbsp;Sale&nbsp;&nbsp;
+                                            <div class="bi-star-fill"></div>
+                                        </div>
+                                        <!-- Product price -->
+                                        <strike>${{ product.price }}</strike>
+                                        &nbsp;
+                                        ${{ product.sale_price }}
+                                        {% else %}
+                                            ${{ product.price }}
+                                            <br/>ID:{{ product.id }}
+                                        {% endif %}
+                                        <!-- Sale -->
+                                        
+                                        <br/>
+                                        <a href="{% url 'home' %}">home</a><br/>
+                                        
+                                        <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">Add To Cart</button>
+                                    </div>
+                                </div>
+                                </div>
+                </div>
+            </center>
+        </div>
+    </div>
+
+    <br/><br/><br/><br/><br/><br/><br/><br/>
+
+<script>
+// check if button pressed
+$(document).on('click','#add-cart', function(e)){
+    e.preventDetail();
+    $.ajax(){
+        type:'POST',
+        url:'{% url 'cart-add' %}',
+        data:{
+            product_id:${'#cart_add'}.val(),
+            csrfmiddlewaretoke: '{{ csrf_token }}',
+            action:'post'
+        },
+        success.function(json){
+            //console.log(json)
+            document.getElementById('cart_quantity').textContent = json.qty;
+            alert('Product added to cart')
+        },
+        error.function(xhr,errmsg,err){
+
+        }
+    });
+})
+
+
+</script>
+{% endblock %}
