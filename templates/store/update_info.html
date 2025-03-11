@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}| Update Profile{% endblock title %}
+
+{% block content %}
+
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+      <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Update Info</h1>
+        <p class="lead fw-normal text-white-50 mb-4">
+          {{ user.username|title }} update your personal information...
+        </p>
+      </div>
+    </div>
+  </header>
+  
+  <h2 class="fw-bold text-center mt-5">{{ user.first_name|title }} {{ user.last_name|title }} Billing Information</h2>
+  <div class="container mt-5">
+    <div class="row align-items-center">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST" action="{% url 'update-user-info' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success w-100 my-5">Update Your Billing Information</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <h2 class="fw-bold text-center mt-5">{{ user.first_name|title }} {{ user.last_name|title }} Shipping Information</h2>
+  <div class="container mt-5">
+    <div class="row align-items-center">
+      <div class="col-md-6 offset-md-3">
+        <form action="" method="post">
+          {% csrf_token %}
+          {{ shipping_form.as_p }}
+          <button type="submit" class="btn btn-success w-100 my-5">Update Your Shipping Information</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

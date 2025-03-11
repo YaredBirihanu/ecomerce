@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}| Login{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section with Gradient Background -->
+<header class="bg-gradient-primary py-5" style="background: linear-gradient(135deg, #6a11cb, #2575fc);">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Welcome Back!</h1>
+      <p class="lead fw-normal text-white-50 mb-4">
+        Login to your account to enjoy an enhanced shopping experience...
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- Login Form Section -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4">Login to Your Account</h2>
+          <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <!-- Username Field with Icon -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-user"></i> <!-- FontAwesome user icon -->
+                </span>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+              </div>
+            </div>
+            <!-- Password Field with Icon -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-lock"></i> <!-- FontAwesome lock icon -->
+                </span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+              </div>
+            </div>
+            <!-- Remember Me Checkbox -->
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+              <label class="form-check-label" for="remember_me">Remember Me</label>
+            </div>
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary w-100 btn-lg mb-3">
+              <i class="fas fa-sign-in-alt me-2"></i>Login
+            </button>
+            <!-- Additional Links -->
+            <div class="text-center mt-3">
+              <p class="text-muted mb-1">Need an account? <a href="{% url 'register' %}" class="text-decoration-none">Register for free.</a></p>
+              <p class="text-muted mb-0">Forgot your password? <a href="#" class="text-decoration-none">Reset it here.</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add FontAwesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Custom CSS for Animations -->
+<style>
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    transition: background 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+  }
+  .input-group-text {
+    background-color: #e9ecef;
+    border: none;
+  }
+  .input-group-text i {
+    color: #6a11cb;
+  }
+  .form-check-input {
+    margin-top: 0.3rem;
+  }
+</style>
+
+{% endblock content %}

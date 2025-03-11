@@ -1,13 +1,90 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
-from .models import Category,Product,Customer,Order
+from django.contrib.auth.models import User
 
-admin.site.register(Category)
-admin.site.register(Product)
-admin.site.register(Order)
+from .models import Category, Customer, Order, Product, Profile
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "date_modified",
+        "phone",
+        "address1",
+        "address2",
+        "city",
+        "state",
+        "zipcode",
+        "country",
+    )
+    list_filter = ("user", "date_modified")
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')  # Ensure 'slug' is a valid field
+    search_fields = ("name", "slug")
+    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)}  # Ensure 'slug' and 'name' fields exist
+    list_display = ('name', 'slug')  # Add 'slug' to list_display
+
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email')
-    search_fields = ('first_name', 'last_name', 'email')
-    list_filter = ('first_name', 'last_name')
-    ordering = ('last_name', 'first_name')
+    list_display = (
+        "first_name",
+        "last_name",
+        "phone",
+        "email",
+        "password",
+    )
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "price",
+        "category",
+        "is_sale",
+        "sale_price",
+    )
+    list_filter = ("category", "is_sale")
+    search_fields = ("name",)
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = (
+        "product",
+        "customer",
+        "quantity",
+        "address",
+        "phone",
+        "date",
+        "status",
+    )
+    
+    list_filter = ("product", "customer", "date", "status")
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+
+
+class UserAdmin(admin.ModelAdmin):
+    model = User
+    field = (
+        "username",
+        "first_name",
+        "last_name",
+        "drobb2011",
+    )
+    inlines = [ProfileInline]
+
+
+admin.site.unregister(User)
+
+
+admin.site.register(User, UserAdmin)

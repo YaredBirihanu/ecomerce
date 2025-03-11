@@ -1,8 +1,46 @@
-from django.db import models
+
 import datetime
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.urls import reverse
+from django.utils.text import slugify
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(User, auto_now=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address1 = models.CharField(max_length=200, blank=True)
+    address2 = models.CharField(max_length=200, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
+    country = models.CharField(max_length=50, blank=True)
+    old_cart = models.CharField(max_length=50, blank=True, null=True)
+
+   
+    def __str__(self):
+        return self.user.username
+
+
+    def create_profile(sender, instance, created, **kwargs):
+        if created:
+            user_profile = Profile(user=instance)
+            user_profile.save()
+
+
+    post_save.connect(create_profile, sender=User)
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -40,6 +78,13 @@ class Product(models.Model):
 
 #customer_orders  
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    # Add other fields as needed
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
     customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
     quantity=models.IntegerField(default=1)
@@ -47,6 +92,7 @@ class Order(models.Model):
     address=models.TextField(max_length=10,default='')
     phone=models.CharField(max_length=10)
     date=models.DateField(default=datetime.datetime.today)
+    
     
     def __str__(self):
         return self.product

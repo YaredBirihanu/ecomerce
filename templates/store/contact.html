@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}| Contact Us{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section with Gradient Background -->
+<header class="bg-gradient-primary py-5" style="background: linear-gradient(135deg, #6a11cb, #2575fc);">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Contact Us</h1>
+      <p class="lead fw-normal text-white-50 mb-4">
+        We'd love to hear from you! Get in touch with our team.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- Contact Form Section -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4">Send Us a Message</h2>
+          <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <!-- Name Field -->
+            <div class="mb-4">
+              <label for="name" class="form-label">Your Name</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+              </div>
+            </div>
+            <!-- Email Field -->
+            <div class="mb-4">
+              <label for="email" class="form-label">Your Email</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+            <!-- Message Field -->
+            <div class="mb-4">
+              <label for="message" class="form-label">Your Message</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+              </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-paper-plane me-2"></i>Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Information Section -->
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h2 class="fw-bolder mb-4">Contact Information</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-map-marker-alt fa-3x mb-3 text-primary"></i>
+              <h5 class="card-title">Address</h5>
+              <p class="card-text">123 Main Street, City, Country</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-phone fa-3x mb-3 text-primary"></i>
+              <h5 class="card-title">Phone</h5>
+              <p class="card-text">+1 (123) 456-7890</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-envelope fa-3x mb-3 text-primary"></i>
+              <h5 class="card-title">Email</h5>
+              <p class="card-text">support@example.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add FontAwesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Custom CSS for Animations -->
+<style>
+  /* Card Hover Effect */
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Input Group Hover Effect */
+  .input-group-text {
+    transition: background-color 0.3s ease;
+  }
+  .input-group:hover .input-group-text {
+    background-color: #6a11cb;
+    color: white;
+  }
+
+  /* Submit Button Hover Effect */
+  .btn-primary {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    transition: background 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+  }
+</style>
+
+{% endblock content %}

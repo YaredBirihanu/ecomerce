@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="{% url 'home' %}">Excession E-Commerce</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'search' %}">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >Categories</a
+          >
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'religious-books' %}">Religious Books</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'clothing' %}">Clothing</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'electronics' %}">Electronics</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'software' %}">Software</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'coding-books' %}">Programming Books</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'science-fiction-books' %}">Science Fiction Books</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'shoes' %}">Shoes</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'watches' %}">Watches</a></li>
+          </ul>
+        </li>
+        {% if user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >Orders Dashboard</a
+            >
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'dashboard_shipped' %}">Shipped Orders</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="{% url 'dashboard_outstanding' %}">Outstanding Orders</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-lg-4">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">Welcome, {{ user.username|title }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >Profile</a
+          >
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'update-user' %}">Account Details</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="{% url 'update-user-info' %}">Your Information</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+      <form class="d-flex">
+        <a href="{% url 'cart-summary' %}" class="btn btn-outline-dark" type="submit">
+          <i class="bi-cart-fill me-1"></i>
+          Cart
+          <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+        </a>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -30,6 +30,10 @@ INSTALLED_APPS = [
 
     'store',
     'cart',
+    'payment',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -47,7 +51,7 @@ ROOT_URLCONF = 'ecomerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR,'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

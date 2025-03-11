@@ -1,51 +1,54 @@
-from django.shortcuts import render,get_object_or_404
+from django.contrib import messages
 from django.http import JsonResponse
-from .cart import Cart
+from django.shortcuts import get_object_or_404, render
 from store.models import Product
+
+from .cart import Cart
 
 
 def cart_summary(request):
-    #get the cart
-    cart=Cart(request)
-    cart_products=cart.get_prods
+    cart = Cart(request)
+    cart_products = cart.get_prods
+    quantities = cart.get_quants
+    totals = cart.cart_total()
+    context = {
+        "cart_products": cart_products,
+        "quantities": quantities,
+        "totals": totals,
+    }
+    return render(request, "cart/cart_summary.html", context)
 
-    return render(request,'cart/cart_summary.html',{'cart_products':cart_products})
-    
-
-
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from store.models import Product
-from .cart import Cart
 
 def cart_add(request):
-    # Get the cart
     cart = Cart(request)
-
-    # Check if the request is a POST request
-    if request.method == 'POST' and request.POST.get('action') == 'post':
-        # Get the product ID from the POST data
-        product_id = int(request.POST.get('product_id'))
-
-        # Look up the product in the database
+    if request.POST.get("action") == "post":
+        product_id = int(request.POST.get("product_id"))
+        product_qty = int(request.POST.get("product_qty"))
         product = get_object_or_404(Product, id=product_id)
-
-        # Add the product to the cart
-        cart.add(product=product)
-
-        # Get the updated cart quantity
-        cart_quantity = len(cart)
-
-        # Return a JSON response with the updated cart quantity
-        response = JsonResponse({'quantity': cart_quantity})
+        cart.add(product=product, quantity=product_qty)
+        cart_quantity = cart.__len__()
+        # response = JsonResponse({"Product Name: ": product.name})
+        response = JsonResponse({"qty": cart_quantity})
+        messages.success(request, "The item has been added to your cart.")
         return response
-
-    # If the request is not valid, return an error response
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 def cart_delete(request):
-    pass
+    cart = Cart(request)
+    if request.POST.get("action") == "post":
+        product_id = int(request.POST.get("product_id"))
+        cart.delete(product=product_id)
+        response = JsonResponse({"product": product_id})
+        messages.success(request, "The item has been removed from your cart.")
+        return response
+
 
 def cart_update(request):
-    pass
+    cart = Cart(request)
+    if request.POST.get("action") == "post":
+        product_id = int(request.POST.get("product_id"))
+        product_qty = int(request.POST.get("product_qty"))
+        cart.update(product=product_id, quantity=product_qty)
+        response = JsonResponse({"qty": product_qty})
+        messages.success(request, "Your cart has been updated.")
+        return response
